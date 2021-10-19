@@ -2,7 +2,7 @@ from w3_new_menu import Menu
 from w3_user import Admin
 from w3_user import Student
 from w3_user import Teacher
-from w3_util import TimeUtil
+from util import TimeUtil
 
 
 class School:

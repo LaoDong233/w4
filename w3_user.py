@@ -1,4 +1,4 @@
-from w3_util import TimeUtil
+from util import TimeUtil
 
 
 class Change:
