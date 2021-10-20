@@ -1,8 +1,8 @@
 from util import TimeUtil
 
 """
-整体思路：因为不知道有几门课程，几门成绩，将成绩以学号
-加课程名存在school里面，取得成绩的时候通过遍历。教师教授的课程也同理
+整体思路：因为不知道有几门课程，几门成绩，将成绩以uid存在
+score类中，通过遍历取出
 使用is_stu和is_tea区分学生和教师
 """
 
@@ -122,6 +122,14 @@ class Teacher(Change):
         self.sx = None
         Change.__init__(self, self.username, self.password, self.year, self.month,
                         self.day, self.is_stu, self.is_tea, self.level)
+
+
+class Score:
+    def __init__(self, uid, class_id, class_name, score):
+        self.uid = uid
+        self.class_id = class_id
+        self.class_name = class_name
+        self.score = score
 
 
 if __name__ == '__main__':
