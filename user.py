@@ -65,19 +65,8 @@ class Change:  # change类作为父类集成给其他子类精简代码
 
 class Admin(Change):
     def __init__(self, uid, username, password, level):  # uid为系统分配，用于排序等等选取等等
+        super().__init__(username, password, None, None, None, False, False, level)
         self.uid = uid
-        self.username = username
-        self.password = password
-        self.level = level
-        self.year = None
-        self.day = None
-        self.month = None
-        self.xz = None
-        self.sx = None
-        self.is_stu = False
-        self.is_tea = False
-        Change.__init__(self, self.username, self.password, self.year,
-                        self.month, self.day, self.is_stu, self.is_tea, self.level)
 
         """
         1级只可以更改教师
@@ -87,23 +76,11 @@ class Admin(Change):
 
 class Student(Change):
     def __init__(self, uid, tid, sno, username, password):  # tid为该学生管理的老师的uid，sno为学号
-        self.is_stu = True
-        self.is_tea = False
-        self.level = None
+        super().__init__(username, password, None, None, None, True, False, None)
         self.uid = uid
         self.tid = tid
         self.sno = sno
-        self.username = username
-        self.password = password
-        self.year = None
-        self.day = None
-        self.month = None
-        self.level = None
         self.score = list()
-        self.xz = None
-        self.sx = None
-        Change.__init__(self, self.username, self.password, self.year, self.month,
-                        self.day, self.is_stu, self.is_tea, self.level)
 
     def change_score(self, class_id, new_score):
         num = 0
@@ -121,21 +98,9 @@ class Student(Change):
 
 class Teacher(Change):
     def __init__(self, uid, tno, username, password):       # tno为教师工号
-        self.is_stu = False
-        self.is_tea = True
-        self.level = None
+        super().__init__(username, password, None, None, None, False, True, False)
         self.uid = uid
         self.tno = tno
-        self.username = username
-        self.password = password
-        self.year = None
-        self.day = None
-        self.month = None
-        self.level = None
-        self.xz = None
-        self.sx = None
-        Change.__init__(self, self.username, self.password, self.year, self.month,
-                        self.day, self.is_stu, self.is_tea, self.level)
 
 
 class Score:
