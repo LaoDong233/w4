@@ -1,8 +1,8 @@
 from util import TimeUtil
 
 """
-整体思路：因为不知道有几门课程，几门成绩，将成绩以uid存在
-score类中，通过遍历取出
+整体思路：因为不知道有几门课程，几门成绩，直接存在student
+的一个列表里，通过遍历取出
 使用is_stu和is_tea区分学生和教师
 """
 
@@ -99,10 +99,24 @@ class Student(Change):
         self.day = None
         self.month = None
         self.level = None
+        self.score = list()
         self.xz = None
         self.sx = None
         Change.__init__(self, self.username, self.password, self.year, self.month,
                         self.day, self.is_stu, self.is_tea, self.level)
+
+    def change_score(self, class_id, new_score):
+        num = 0
+        for score in self.score:
+            if score.class_id == class_id:
+                self.score[num].score = new_score
+            else:
+                num += 1
+            if num == len(self.score):
+                return RuntimeError
+
+    def add_score(self, score):
+        self.score.append(score)
 
 
 class Teacher(Change):
@@ -125,8 +139,7 @@ class Teacher(Change):
 
 
 class Score:
-    def __init__(self, uid, class_id, class_name, score):
-        self.uid = uid
+    def __init__(self, class_id, class_name, score):
         self.class_id = class_id
         self.class_name = class_name
         self.score = score
