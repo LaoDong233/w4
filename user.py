@@ -100,7 +100,7 @@ class Student(Change):
 
     def change_score(self, class_id, new_score, tno):
         """
-        关于修改分数,传入classid，和tno，找到该学生相同的class id并删除这个分数，重新打包并添加到self.score后面
+        关于修改分数,传入class id，和tno，找到该学生相同的class id并删除这个分数，重新打包并添加到self.score后面
         :param class_id: 班级id
         :param new_score: 新分数
         :param tno: 传入修改者的uid，用来查询修改者
@@ -121,18 +121,28 @@ class Student(Change):
     def add_score(self, class_id, score, tno):
         """
         与修改分数同理，差别就是这个只寻找相同的class id，如果有就报错，没有就直接添加
-        :param class_id:
-        :param score:
-        :param tno:
-        :return:
+        :param class_id:传入班级id
+        :param score:传入该生本学科分数
+        :param tno:传入修改者的id
+        :return:需要时报错
         """
-        for score in self.score:
-        temp = Score(class_id, score, tno)
-        self.score.append(temp)
+        for score_list in self.score:
+            if score_list.class_id == class_id:
+                return RuntimeError
+        else:
+            temp = Score(class_id, score, tno)
+            self.score.append(temp)
 
 
 class Teacher(Change):
     def __init__(self, uid, tno, username, password):       # tno为教师工号
+        """
+        和学生类似。就是减少了sno，添加了tno（教职工号）
+        :param uid: 系统分配id
+        :param tno: 工号
+        :param username: 用户名
+        :param password: 密码
+        """
         super().__init__(username, password, None, None, None, False, True, False)
         self.uid = uid
         self.tno = tno
@@ -141,11 +151,19 @@ class Teacher(Change):
 
 class Score:
     def __init__(self, class_id, score, tno):
+        """
+        分数储存类，用于封装分数，没什么大用
+        :param class_id: 班级id
+        :param score: 分数
+        :param tno: 修改者的id
+        """
         self.class_id = class_id
         self.score = score
         self.tno = tno
 
 
+"""
+回头移动到School里面
 class ClassList:
     def __init__(self):
         self.class_list = list()
@@ -166,6 +184,7 @@ class ClassList:
                 return RuntimeError
         temp = class_id, class_name
         self.class_list.append(temp)
+"""
 
 
 if __name__ == '__main__':
