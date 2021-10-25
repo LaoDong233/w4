@@ -178,4 +178,3 @@ if __name__ == '__main__':
     a.show_info()
     b.show_info()
     c.show_info()
-111
