@@ -10,13 +10,14 @@ from util import TimeUtil
 class Menu:
     def __init__(self):
         self.time_util = TimeUtil()
+        # 登录菜单
         self.login_menu = {
             1: 'Student',
             2: 'Teacher',
             3: 'Administrator',
             4: 'End'
         }
-        # 登录菜单
+        # 管理员主菜单
         self.admin_menu = {
             1: "Change Password",
             2: "Change Username",
@@ -31,4 +32,26 @@ class Menu:
             11: "Back",
             12: "Exit"
         }
-        # 管理员主菜单
+        # 教师菜单
+        self.tea_menu = {
+            1: "Change Password",
+            2: "Change Username",
+            3: "Change Info",
+            4: "Add Student",
+            5: "Remove Student",
+            6: "Show Student",
+            7: "Change Student Password",
+            8: "Change Student Info",
+            9: "Change Student Score",
+            10: "Back",
+            11: "Exit"
+        }
+        # 学生菜单
+        self.stu_menu = {
+            1: "Change Password",
+            2: "Change Username",
+
+        }
+        # 两个报错
+        self.run_time_error_info = 'Input Error!'
+        self.value_error_info = 'ValueError!'

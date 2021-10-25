@@ -4,6 +4,7 @@ from util import TimeUtil
 整体思路：因为不知道有几门课程，几门成绩，直接存在student
 的一个列表里，通过遍历取出
 使用is_stu和is_tea区分学生和教师
+教师拥有class列表，用于标识是否有权限添加成绩
 """
 
 
@@ -65,6 +66,13 @@ class Change:  # change类作为父类集成给其他子类精简代码
 
 class Admin(Change):
     def __init__(self, uid, username, password, level):  # uid为系统分配，用于排序等等选取等等
+        """
+        管理员类中uid使用系统自动分配，方便管理和排序
+        :param uid: 系统分配
+        :param username: 用户名
+        :param password: 密码
+        :param level: 管理员级别
+        """
         super().__init__(username, password, None, None, None, False, False, level)
         self.uid = uid
 
@@ -76,24 +84,51 @@ class Admin(Change):
 
 class Student(Change):
     def __init__(self, uid, tid, sno, username, password):  # tid为该学生管理的老师的uid，sno为学号
+        """
+        uid，tid，分别为系统分配的id和管理学生的教师的id，sno为学号
+        :param uid: 系统分配
+        :param tid: 管理这个学生的教师uid
+        :param sno: 学号
+        :param username: 用户名
+        :param password: 密码
+        """
         super().__init__(username, password, None, None, None, True, False, None)
         self.uid = uid
         self.tid = tid
         self.sno = sno
         self.score = list()
 
-    def change_score(self, class_id, new_score):
+    def change_score(self, class_id, new_score, tno):
+        """
+        关于修改分数,传入classid，和tno，找到该学生相同的class id并删除这个分数，重新打包并添加到self.score后面
+        :param class_id: 班级id
+        :param new_score: 新分数
+        :param tno: 传入修改者的uid，用来查询修改者
+        :return: 如果找不到这个学科则报错
+        """
         num = 0
         for score in self.score:
             if score.class_id == class_id:
-                self.score[num].score = new_score
+                num = 0
+                self.score.remove(score)
+                temp = Score(class_id, new_score, tno)
+                self.score.append(temp)
             else:
                 num += 1
             if num == len(self.score):
                 return RuntimeError
 
-    def add_score(self, score):
-        self.score.append(score)
+    def add_score(self, class_id, score, tno):
+        """
+        与修改分数同理，差别就是这个只寻找相同的class id，如果有就报错，没有就直接添加
+        :param class_id:
+        :param score:
+        :param tno:
+        :return:
+        """
+        for score in self.score:
+        temp = Score(class_id, score, tno)
+        self.score.append(temp)
 
 
 class Teacher(Change):
@@ -101,13 +136,36 @@ class Teacher(Change):
         super().__init__(username, password, None, None, None, False, True, False)
         self.uid = uid
         self.tno = tno
+        self.class_list = list()
 
 
 class Score:
-    def __init__(self, class_id, class_name, score):
+    def __init__(self, class_id, score, tno):
         self.class_id = class_id
-        self.class_name = class_name
         self.score = score
+        self.tno = tno
+
+
+class ClassList:
+    def __init__(self):
+        self.class_list = list()
+
+    def choice_class(self, class_id):
+        num = 0
+        for class_info in self.class_list:
+            if class_info[0] == class_id:
+                return class_info[0]
+            else:
+                num += 1
+            if num == len(self.class_list):
+                return RuntimeError
+
+    def add_class(self, class_id, class_name):
+        for class_list in self.class_list:
+            if class_list[0] == class_id:
+                return RuntimeError
+        temp = class_id, class_name
+        self.class_list.append(temp)
 
 
 if __name__ == '__main__':
