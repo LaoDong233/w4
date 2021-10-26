@@ -154,4 +154,15 @@ class Menu:
             else:
                 return usr, pas
 
-
+    def get_choice_login(self):
+        while 1:
+            try:
+                choice = int(input("Enter your choice: "))
+                if choice not in [1, 2, 3]:
+                    raise RuntimeError
+            except RuntimeError:
+                print(self.run_time_error_info)
+            except ValueError:
+                print(self.value_error_info)
+            else:
+                return choice
