@@ -3,11 +3,35 @@ from util import TimeUtil
 from menu import Menu
 
 
-class School:
+class ClassList:
     def __init__(self):
+        self.class_list = list()
+
+    def choice_class(self, class_id):
+        num = 0
+        for class_info in self.class_list:
+            if class_info[0] == class_id:
+                return class_info[0]
+            else:
+                num += 1
+            if num == len(self.class_list):
+                return RuntimeError
+
+    def add_class(self, class_id, class_name):
+        for class_list in self.class_list:
+            if class_list[0] == class_id:
+                return RuntimeError
+        temp = class_id, class_name
+        self.class_list.append(temp)
+
+
+class School(ClassList):
+    def __init__(self):
+        super(ClassList).__init__()
         self.menu = Menu()
         self.admin_list = list()
         self.tea_list = list()
+        self.stu_list = list()
 
     @staticmethod
     def show_user_list(info_list):
@@ -22,4 +46,33 @@ class School:
         """
         num = 0
         while num < 3:
+            user = None
             username, password = self.menu.get_login_info()
+            login = None
+            if choice is 1 and isinstance(username, int):
+                for user in self.stu_list:
+                    if user.sno == username:
+                        login = user.login(password)
+            elif choice is 2 and isinstance(username, int):
+                for user in self.tea_list:
+                    if user.tno == username:
+                        login = user.login(password)
+            elif choice is 3 and isinstance(username, int):
+                for user in self.admin_list:
+                    if user.uid == username:
+                        login = user.login(password)
+            elif choice is 1:
+                for user in self.stu_list:
+                    if user.username == username:
+                        login = user.login(password)
+            elif choice is 2:
+                for user in self.tea_list:
+                    if user.username == username:
+                        login = user.login(password)
+            elif choice is 3:
+                for user in self.admin_list:
+                    if user.username == username:
+                        login = user.login(password)
+            if login:
+                return user
+            num += 1
