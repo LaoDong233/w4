@@ -114,4 +114,8 @@ class Menu:
             else:
                 print("%s-----%s" % (number, item))
 
-#    def get_info(self):
+    def get_info(self):
+        """
+        通过get info函数获取
+        :return:
+        """
