@@ -116,6 +116,22 @@ class Menu:
 
     def get_info(self):
         """
-        通过get info函数获取
-        :return:
+        通过get info函数获取change所需要的变量
+        :return:年份，月份和日期
         """
+        while 1:
+            try:
+                year = int(input('What is your birth year: '))
+                self.time_util.check_year(year)
+                month = int(input('What is your birth month: '))
+                self.time_util.check_month(month)
+                day = int(input("What is your birth day: "))
+                self.time_util.check_day(year, month, day)
+            except RuntimeError:
+                print(self.run_time_error_info)
+                continue
+            except ValueError:
+                print(self.value_error_info)
+                continue
+            else:
+                return year, month, day
