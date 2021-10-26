@@ -92,3 +92,14 @@ class School(ClassList):
             if login:
                 return user
             num += 1
+
+    @staticmethod
+    def get_info_number(info_list):
+        size = 0
+        for info in info_list:
+            if not info.uid == (size + 1):
+                return info.uid - 1
+            else:
+                size = info.uid
+        else:
+            return size + 1
