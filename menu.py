@@ -155,6 +155,10 @@ class Menu:
                 return usr, pas
 
     def get_choice_login(self):
+        """
+        用来获取登录的用户类型的函数
+        :return: 返回选择的数值
+        """
         while 1:
             try:
                 choice = int(input("Enter your choice: "))
@@ -162,7 +166,28 @@ class Menu:
                     raise RuntimeError
             except RuntimeError:
                 print(self.run_time_error_info)
+                continue
             except ValueError:
                 print(self.value_error_info)
+                continue
+            else:
+                return choice
+
+    def get_choice_login_mode(self):
+        """
+        用来获取使用什么信息登录的函数
+        :return: 返回选择的数值
+        """
+        while 1:
+            try:
+                choice = int(input("Enter your choice: "))
+                if choice not in range(1, 5):
+                    raise RuntimeError
+            except RuntimeError:
+                print(self.run_time_error_info)
+                continue
+            except ValueError:
+                print(self.value_error_info)
+                continue
             else:
                 return choice
