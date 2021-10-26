@@ -191,3 +191,36 @@ class Menu:
                 continue
             else:
                 return choice
+
+    @staticmethod
+    def show_list(menu_list):
+        for num, item in menu_list:
+            print("%s-----%s" % (num, item))
+        return None
+
+    def show_login_menu(self, choice):
+        """
+        用来显示登录菜单，仅此而已
+        :param choice:choice选择菜单，1是主菜单，2是登录方法菜单
+        :return: None
+        """
+        if choice is 1:
+            self.show_list(self.login_mode_menu)
+        else:
+            self.show_list(self.login_menu)
+        return None
+
+    @staticmethod
+    def separator():
+        """
+        一条奇怪的分割线
+        :return: None
+        """
+        print("=" * 20)
+        return None
+
+    def show_tea_menu(self):
+        self.show_list(self.tea_menu)
+
+    def show_stu_menu(self):
+        self.show_list(self.stu_menu)
