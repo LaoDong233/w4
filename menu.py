@@ -136,23 +136,27 @@ class Menu:
             else:
                 return year, month, day
 
-    def get_login_info(self, choice):
+    @staticmethod
+    def get_login_info():
         """
         获取用户名密码函数，传入choice给程序判断是选择学号登录还是选择用户名登录
-        :param choice: 1为学号，2为用户名
         :return: 用户名或者学号
         """
         while 1:
+            usr = None
+            pas = None
             try:
                 usr = input("Input your username: ")
+                if usr == '':
+                    continue
                 pas = input("Input your password: ")
-                if choice == 1:
-                    int(usr)
+                if pas == '':
+                    continue
+                id_usr = int(usr)
             except ValueError:
-                print(self.value_error_info)
-                continue
-            else:
                 return usr, pas
+            else:
+                return id_usr, pas
 
     def get_choice_login(self):
         """

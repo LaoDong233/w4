@@ -22,4 +22,4 @@ class School:
         """
         num = 0
         while num < 3:
-            
+            username, password = self.menu.get_login_info()
