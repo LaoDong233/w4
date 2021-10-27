@@ -228,3 +228,31 @@ class Menu:
 
     def show_stu_menu(self):
         self.show_list(self.stu_menu)
+
+    def get_new_user(self, user_type):
+        """
+        获取一个新的用户
+        :param user_type:获取的用户类型，1为学生，2为教师，3为学生
+        :return: 返回需要的用户信息
+        """
+        while 1:
+            usr = int(input("Input user's username: "))
+            pas = int(input("Input user's password: (def: 123"))
+            # if判断是否为空
+            if usr == '':
+                continue
+            if pas == '':
+                pas = 123
+            uid = None
+            try:
+                if user_type == 1:
+                    uid = int(input("Input user's sno: "))
+                elif user_type == 2:
+                    uid = int(input("Input user's tno: "))
+                elif user_type == 3:
+                    return usr, pas
+            except ValueError:
+                print(self.value_error_info)
+                continue
+            else:
+                return uid, usr, pas
