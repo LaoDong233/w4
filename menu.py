@@ -121,6 +121,9 @@ class Menu:
         """
         while 1:
             try:
+                name = input("What is your name: ")
+                if name == '':
+                    raise RuntimeError
                 year = int(input('What is your birth year: '))
                 self.time_util.check_year(year)
                 month = int(input('What is your birth month: '))
@@ -134,7 +137,7 @@ class Menu:
                 print(self.value_error_info)
                 continue
             else:
-                return year, month, day
+                return name, year, month, day
 
     @staticmethod
     def get_login_info():
@@ -232,17 +235,17 @@ class Menu:
     def get_new_user(self, user_type):
         """
         获取一个新的用户
-        :param user_type:获取的用户类型，1为学生，2为教师，3为学生
+        :param user_type:获取的用户类型，1为学生，2为教师，3为管理员
         :return: 返回需要的用户信息
         """
         while 1:
-            usr = int(input("Input user's username: "))
-            pas = int(input("Input user's password: (def: 123"))
+            usr = input("Input user's username: ")
+            pas = input("Input user's password: (def: 123")
             # if判断是否为空
             if usr == '':
                 continue
             if pas == '':
-                pas = 123
+                pas = "123"
             uid = None
             try:
                 if user_type == 1:
@@ -250,7 +253,7 @@ class Menu:
                 elif user_type == 2:
                     uid = int(input("Input user's tno: "))
                 elif user_type == 3:
-                    return usr, pas
+                    uid = int(input("Input user's level: "))
             except ValueError:
                 print(self.value_error_info)
                 continue

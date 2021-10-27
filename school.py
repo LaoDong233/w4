@@ -1,5 +1,4 @@
 from user import Admin, Student, Teacher, Score
-from util import TimeUtil
 from menu import Menu
 
 
@@ -108,3 +107,47 @@ class School(ClassList):
                 size = info.uid
         else:
             return size + 1
+
+    def add_new_user(self, choice, user):
+        num = 0
+        while 1:
+            cant_add = None
+            if num < 3:
+                if choice != 3:
+                    uid, username, password = self.menu.get_new_user(choice)
+                    if choice == 1:
+                        for info in self.stu_list:
+                            if info.sno == uid:
+                                cant_add = False
+                            elif info.username == username:
+                                cant_add = True
+                    elif choice == 2:
+                        for info in self.tea_list:
+                            if info.tno == uid:
+                                cant_add = False
+                            elif info.username == username:
+                                cant_add = True
+                    elif choice == 3:
+                        for info in self.admin_list:
+                            if info.username == username:
+                                cant_add = True
+                    if isinstance(cant_add, bool):
+                        if cant_add:
+                            print("username error")
+                            continue
+                        else:
+                            print("sno/tno error")
+                            continue
+                    else:
+                        if choice == 3:
+                            no = self.get_info_number(self.admin_list)
+                            self.admin_list.append(Admin(no, username, password, uid))
+                            self.admin_list = sorted(self.admin_list, key=lambda admin: admin.uid)
+                        elif choice == 1:
+                            no = self.get_info_number(self.stu_list)
+                            self.stu_list.append(Student(no, user.uid, uid, username, password))
+                            self.stu_list = sorted(self.stu_list, key=lambda student: student.uid)
+                        elif choice == 2:
+                            no = self.get_info_number(self.tea_list)
+                            self.tea_list.append(Teacher(no, uid, username, password))
+                            self.stu_list = sorted(self.tea_list, key=lambda teacher: teacher.uid)
