@@ -205,8 +205,35 @@ class School(ClassList):
             print("add error")
 
     def tea_change_score(self, user, student, class_id, score):
+        """
+        教师修改学生成绩函数，修改添加一体，如果存在的class_id则修改，否则添加
+        :param user: 传入一个教师
+        :param student: 传入一个学生的学号
+        :param class_id: 传入一个课程id
+        :param score: 传入一个分数
+        :return:
+        """
         stu_list = self.get_tea_stu(user)
         for stu in stu_list:
             if stu.sno == student:
                 self.stu_list.remove(stu)
                 stu.add_score(class_id, score, user.tno)
+
+    def show_class(self, user):
+        """
+        在传入教师的情况下，显示教师所管理的所有课程和id，否则显示全部的课程和id
+        :param user: 传入一个老师的用户
+        :return:
+        """
+        if user is None:
+            for class_info in self.class_list:
+                class_id = class_info[0]
+                class_name = class_info[1]
+                print("Class id:%s, Class name:%s" % (class_id, class_name))
+        else:
+            for class_info in self.class_list:
+                class_id = class_info[0]
+                if class_id not in user.class_list:
+                    continue
+                class_name = class_info[1]
+                print("Class id:%s, Class name:%s" % (class_id, class_name))
