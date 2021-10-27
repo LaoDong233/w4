@@ -95,6 +95,11 @@ class School(ClassList):
 
     @staticmethod
     def get_info_number(info_list):
+        """
+        传入一个列表，返回中间间隔的uid，或者返回最后一个
+        :param info_list: 用户列表
+        :return: 返回可以用的Uid
+        """
         size = 0
         for info in info_list:
             if not info.uid == (size + 1):
