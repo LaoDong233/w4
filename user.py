@@ -16,6 +16,7 @@ class Change:  # change类作为父类集成给其他子类精简代码
         self.year = year
         self.month = month
         self.day = day
+        self.name = None
         self.is_stu = is_stu
         self.is_tea = is_tea
         self.level = level
@@ -35,11 +36,12 @@ class Change:  # change类作为父类集成给其他子类精简代码
         else:
             return False
 
-    def change_my_info(self, year, month, day):  # 修改本用户信息
+    def change_my_info(self, name, year, month, day):  # 修改本用户信息
         if not self.is_stu:
             if not self.is_tea:  # 根据is_tea和is_stu判断职位，如果全否则为管理员
                 return None
         self.year = year
+        self.name = name
         self.month = month
         self.day = day
         self.xz = self.util.check_xz(month, day)
