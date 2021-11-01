@@ -1,7 +1,7 @@
-from w3_new_menu import Menu
-from w3_user import Admin
-from w3_user import Student
-from w3_user import Teacher
+from menu import Menu
+from user import Admin
+from user import Student
+from user import Teacher
 from util import TimeUtil
 
 

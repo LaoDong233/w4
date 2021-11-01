@@ -102,7 +102,8 @@ class Student(Change):
 
     def change_score(self, class_id, new_score, tno):
         """
-        关于修改分数,传入class id，和tno，找到该学生相同的class id并删除这个分数，重新打包并添加到self.score后面
+        关于修改分数,传入class id，和tno，找到该学生相同的class id并删除这个分数，重新打包并添加到self.score后面,
+        如果没有相同的则直接添加
         :param class_id: 班级id
         :param new_score: 新分数
         :param tno: 传入修改者的uid，用来查询修改者
@@ -118,22 +119,7 @@ class Student(Change):
             else:
                 num += 1
             if num == len(self.score):
-                return RuntimeError
-
-    def add_score(self, class_id, score, tno):
-        """
-        与修改分数同理，差别就是这个只寻找相同的class id，如果有就报错，没有就直接添加
-        :param class_id:传入班级id
-        :param score:传入该生本学科分数
-        :param tno:传入修改者的id
-        :return:需要时报错
-        """
-        for score_list in self.score:
-            if score_list.class_id == class_id:
-                return RuntimeError
-        else:
-            temp = Score(class_id, score, tno)
-            self.score.append(temp)
+                temp = Score(class_id, new_score, tno)
 
 
 class Teacher(Change):
@@ -193,9 +179,9 @@ if __name__ == '__main__':
     a = Admin(1, 'aa', 'aa', 2)
     b = Student(1, 1, 1, "1", "1")
     c = Teacher(1, 1, "1", 1)
-    a.change_my_info(1, 1, 1)
-    b.change_my_info(1, 1, 1)
-    c.change_my_info(1, 1, 1)
+    a.change_my_info(1, 1, 1, 1)
+    b.change_my_info(1, 1, 1, 1)
+    c.change_my_info(1, 1, 1, 1)
     a.show_info()
     b.show_info()
     c.show_info()

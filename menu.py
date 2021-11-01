@@ -32,8 +32,11 @@ class Menu:
         }
         # 管理员主菜单
         self.admin_menu = {
+            # √
             1: "Change Password",
+            # √
             2: "Change Username",
+            # √
             3: "Add User",
             4: "Remove User",
             5: "Show User",
