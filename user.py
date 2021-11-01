@@ -10,7 +10,8 @@ from util import TimeUtil
 
 class Change:  # change类作为父类集成给其他子类精简代码
 
-    def __init__(self, username, password, year, month, day, is_stu, is_tea, level):  # 导入所有需要的数据
+    def __init__(self, uid, username, password, year, month, day, is_stu, is_tea, level):  # 导入所有需要的数据
+        self.uid = uid
         self.username = username
         self.password = password
         self.year = year
@@ -75,8 +76,7 @@ class Admin(Change):
         :param password: 密码
         :param level: 管理员级别
         """
-        super().__init__(username, password, None, None, None, False, False, level)
-        self.uid = uid
+        super().__init__(uid, username, password, None, None, None, False, False, level)
 
         """
         1级只可以更改教师
@@ -94,8 +94,7 @@ class Student(Change):
         :param username: 用户名
         :param password: 密码
         """
-        super().__init__(username, password, None, None, None, True, False, None)
-        self.uid = uid
+        super().__init__(uid, username, password, None, None, None, True, False, None)
         self.tid = tid
         self.sno = sno
         self.score = list()
@@ -120,6 +119,7 @@ class Student(Change):
                 num += 1
             if num == len(self.score):
                 temp = Score(class_id, new_score, tno)
+                self.score.append(temp)
 
 
 class Teacher(Change):
@@ -131,8 +131,7 @@ class Teacher(Change):
         :param username: 用户名
         :param password: 密码
         """
-        super().__init__(username, password, None, None, None, False, True, False)
-        self.uid = uid
+        super().__init__(uid, username, password, None, None, None, False, True, False)
         self.tno = tno
         self.class_list = list()
 
