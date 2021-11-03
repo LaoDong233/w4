@@ -112,7 +112,7 @@ class Menu:
         else:
             level = self.get_level(user)
         for number, item in self.admin_operate_user_menu.items():
-            if level == 1 and number is 3:
+            if level == 1 and number == 3:
                 continue
             else:
                 print("%s-----%s" % (number, item))
@@ -141,6 +141,19 @@ class Menu:
                 continue
             else:
                 return name, year, month, day
+
+    def get_min_choice(self, get_min):
+        while 1:
+            try:
+                get = int(input("Choice: "))
+                if get not in range(1, get_min + 1):
+                    raise RuntimeError
+                else:
+                    return get
+            except RuntimeError:
+                print(self.run_time_error_info)
+            except ValueError:
+                print(self.value_error_info)
 
     @staticmethod
     def get_login_info():
@@ -214,7 +227,7 @@ class Menu:
         :param choice:choice选择菜单，1是主菜单，2是登录方法菜单
         :return: None
         """
-        if choice is 1:
+        if choice == 1:
             self.show_list(self.login_mode_menu)
         else:
             self.show_list(self.login_menu)
@@ -243,7 +256,7 @@ class Menu:
         """
         while 1:
             usr = input("Input user's username: ")
-            pas = input("Input user's password: (def: 123")
+            pas = input("Input user's password: (def: 123)")
             # if判断是否为空
             if usr == '':
                 continue
