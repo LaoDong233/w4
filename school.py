@@ -64,30 +64,30 @@ class School(ClassList):
             user = None
             username, password = self.menu.get_login_info()
             login = None
-            if choice is 1 and isinstance(username, int):
+            if choice == 1 and isinstance(username, int):
                 for user in self.stu_list:
                     if user.sno == username:
-                        login = user.login(password)
-            elif choice is 2 and isinstance(username, int):
+                        login = user.user_login(password)
+            elif choice == 2 and isinstance(username, int):
                 for user in self.tea_list:
                     if user.tno == username:
-                        login = user.login(password)
-            elif choice is 3 and isinstance(username, int):
+                        login = user.user_login(password)
+            elif choice == 3 and isinstance(username, int):
                 for user in self.admin_list:
                     if user.uid == username:
-                        login = user.login(password)
-            elif choice is 1:
+                        login = user.user_login(password)
+            elif choice == 1:
                 for user in self.stu_list:
                     if user.username == username:
-                        login = user.login(password)
-            elif choice is 2:
+                        login = user.user_login(password)
+            elif choice == 2:
                 for user in self.tea_list:
                     if user.username == username:
-                        login = user.login(password)
-            elif choice is 3:
+                        login = user.user_login(password)
+            elif choice == 3:
                 for user in self.admin_list:
                     if user.username == username:
-                        login = user.login(password)
+                        login = user.user_login(password)
             if login:
                 return user
             num += 1
@@ -116,49 +116,52 @@ class School(ClassList):
         :return:
         """
         num = 0
-        while 1:
+        while num < 3:
             cant_add = None
-            if num < 3:
-                uid, username, password = self.menu.get_new_user(choice)
-                if choice == 1:
-                    for info in self.stu_list:
-                        if info.sno == uid:
-                            cant_add = False
-                        elif info.username == username:
-                            cant_add = True
-                elif choice == 2:
-                    for info in self.tea_list:
-                        if info.tno == uid:
-                            cant_add = False
-                        elif info.username == username:
-                            cant_add = True
-                elif choice == 3:
-                    for info in self.admin_list:
-                        if info.username == username:
-                            cant_add = True
-                if isinstance(cant_add, bool):
-                    if cant_add:
-                        print("username error")
-                        continue
-                    else:
-                        print("sno/tno error")
-                        continue
+            uid, username, password = self.menu.get_new_user(choice)
+            if choice == 1:
+                for info in self.stu_list:
+                    if info.sno == uid:
+                        cant_add = False
+                    elif info.username == username:
+                        cant_add = True
+            elif choice == 2:
+                for info in self.tea_list:
+                    if info.tno == uid:
+                        cant_add = False
+                    elif info.username == username:
+                        cant_add = True
+            elif choice == 3:
+                for info in self.admin_list:
+                    if info.username == username:
+                        cant_add = True
+            if isinstance(cant_add, bool):
+                if cant_add:
+                    print("username error")
+                    continue
                 else:
-                    # 这里的算法是先拿到UID序号中缺失的一位，然后作为新用户的UID。
-                    # 最后再调用sorted进行排序
-                    if choice == 3:
-                        no = self.get_info_number(self.admin_list)
-                        self.admin_list.append(Admin(no, username, password, uid))
-                        self.admin_list = sorted(self.admin_list, key=lambda admin: admin.uid)
-                    elif choice == 1:
-                        no = self.get_info_number(self.stu_list)
-                        self.stu_list.append(Student(no, user.uid, uid, username, password))
-                        self.stu_list = sorted(self.stu_list, key=lambda student: student.uid)
-                    elif choice == 2:
-                        no = self.get_info_number(self.tea_list)
-                        self.tea_list.append(Teacher(no, uid, username, password))
-                        self.stu_list = sorted(self.tea_list, key=lambda teacher: teacher.uid)
-                num += 1
+                    print("sno/tno error")
+                    continue
+            else:
+                # 这里的算法是先拿到UID序号中缺失的一位，然后作为新用户的UID。
+                # 最后再调用sorted进行排序
+                if choice == 3:
+                    no = self.get_info_number(self.admin_list)
+                    self.admin_list.append(Admin(no, username, password, uid))
+                    self.admin_list = sorted(self.admin_list, key=lambda admin: admin.uid)
+                    break
+                elif choice == 1:
+                    no = self.get_info_number(self.stu_list)
+                    self.stu_list.append(Student(no, user.uid, uid, username, password))
+                    self.stu_list = sorted(self.stu_list, key=lambda student: student.uid)
+                    break
+                elif choice == 2:
+                    no = self.get_info_number(self.tea_list)
+                    self.tea_list.append(Teacher(no, uid, username, password))
+                    self.stu_list = sorted(self.tea_list, key=lambda teacher: teacher.uid)
+                    break
+            num += 1
+        if num != 0:
             print("add user error")
 
     def show_list(self, info_list, user):
@@ -237,3 +240,45 @@ class School(ClassList):
                     continue
                 class_name = class_info[1]
                 print("Class id:%s, Class name:%s" % (class_id, class_name))
+
+    def remove_user(self, types, user):
+        """
+        删除用户函数，通过types获取要删除哪一类用户，然后在选择删除教师的时候
+        :param types:传入要删除的用户类型，1为学生，2为教师，3为管理员
+        :param user:删除学生时传入一个教师或者一个管理员，判断显示类型
+        :return:
+        """
+        info_list = None
+        if types == 1:
+            info_list = "self.stu_list"
+        elif types == 2:
+            info_list = "self.tea_list"
+        elif types == 3:
+            info_list = "self.admin_list"
+        is_admin = False
+        if user.level:
+            is_admin = True
+        if types == 2 and not is_admin:
+            self.show_list(eval(info_list), user)
+        else:
+            self.show_list(eval(info_list), None)
+        choice = self.menu.get_min_choice(len(eval(info_list))) - 1
+        print(choice)
+        choice_user = eval(info_list)[choice]
+        if types == 2:
+            for stu in self.stu_list:
+                if choice_user.uid == stu.tid:
+                    self.stu_list.remove(stu)
+        else:
+            eval(info_list).remove(choice_user)
+        """
+        ！！！如果删除教师则会连带删除教师管理的学生！！！
+        """
+
+
+if __name__ == '__main__':
+    school = School()
+    school.admin_list.append(Admin(1, 'admin', 'admin', 2))
+    school.admin_list.append(Admin(1, 'aa', 'aa', 2))
+    users = school.login(3)
+    school.remove_user(3, users)
