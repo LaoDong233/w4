@@ -275,10 +275,43 @@ class School(ClassList):
         ！！！如果删除教师则会连带删除教师管理的学生！！！
         """
 
+    def show_user(self, user):
+        choice_list = None
+        if user.level:
+            if user.level == 1:
+                self.menu.show_admin_user_choice(user)
+                choice = self.menu.get_min_choice(2)
+            else:
+                self.menu.show_admin_user_choice(user)
+                choice = self.menu.get_min_choice(3)
+            if choice == 1:
+                choice_list = "self.stu_list"
+            elif choice == 2:
+                choice_list = "self.tea_list"
+            elif choice == 3:
+                choice_list = "self.admin_list"
+        else:
+            stu_list = self.get_tea_stu(user)
+            choice_list = "stu_list"
+        self.show_list(eval(choice_list), None)
+
 
 if __name__ == '__main__':
     school = School()
+    # 内置管理员 admin 密码 admin
     school.admin_list.append(Admin(1, 'admin', 'admin', 2))
+    school.stu_list.append(Student(1, 1, 1, "a", "1"))
+    school.tea_list.append(Teacher(1, 1, "a", "1"))
+    school.admin_list.append(Admin(1, 'aa', 'aa', 2))
+    users = school.login(2)
+    school.show_user(users)
+    """
+    删除功能测试
+    school.stu_list.append(Student(1, 1, 1, "1", "1"))
+    school.tea_list.append(Teacher(1, 1, "1", 1))
     school.admin_list.append(Admin(1, 'aa', 'aa', 2))
     users = school.login(3)
-    school.remove_user(3, users)
+    school.remove_user(2, users)
+    school.show_list(school.stu_list, None)
+    school.show_list(school.admin_list, None)
+    """

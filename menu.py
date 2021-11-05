@@ -38,7 +38,9 @@ class Menu:
             2: "Change Username",
             # √
             3: "Add User",
+            # √
             4: "Remove User",
+            # √
             5: "Show User",
             6: "Change Other Info",
             7: "Change Other Password",
