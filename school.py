@@ -300,9 +300,12 @@ if __name__ == '__main__':
     school = School()
     # 内置管理员 admin 密码 admin
     school.admin_list.append(Admin(1, 'admin', 'admin', 2))
+    # 内置内置学生 a 密码 1
     school.stu_list.append(Student(1, 1, 1, "a", "1"))
+    # 内置内置教师 a 密码 1
     school.tea_list.append(Teacher(1, 1, "a", "1"))
-    school.admin_list.append(Admin(1, 'aa', 'aa', 2))
+    # 内置管理员 aa 密码 aa
+    school.admin_list.append(Admin(1, 'aa', 'aa', 1))
     users = school.login(2)
     school.show_user(users)
     """
